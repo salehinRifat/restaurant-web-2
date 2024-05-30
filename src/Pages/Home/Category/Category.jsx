@@ -21,7 +21,7 @@ const Category = () => {
                     clickable: true,
                 }}
                 modules={[Pagination]}
-                className="mySwiper my-10"
+                className="mySwiper my-10  max-w-screen-xl mx-auto"
             >
                 <SwiperSlide>
                     <img src={img1} alt="" />

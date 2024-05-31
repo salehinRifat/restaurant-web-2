@@ -1,0 +1,11 @@
+.wrapper {
+    background: linear-gradient(rgba(107, 120, 131, 0.8), rgba(184, 163, 163, 0.8)), url("../../../assets/home/featured.jpg");
+    background-repeat: no-repeat;
+    background-blend-mode: multiply;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.btn-ghost.btn-active {
+    border-bottom-color: white;
+}

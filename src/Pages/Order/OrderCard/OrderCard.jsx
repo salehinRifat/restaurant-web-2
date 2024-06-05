@@ -2,6 +2,9 @@
 
 const OrderCard = ({ properties }) => {
     const { image, name, recipe, price } = properties;
+    const handleAddCart = (item) => {
+        console.log(item);
+    }
     return (
         <div>
             <div className=" shadow-xl">
@@ -10,7 +13,7 @@ const OrderCard = ({ properties }) => {
                     <h2 className="card-title block mt-2 text-center">{name}</h2>
                     <p>{recipe}</p>
                     <div className="card-actions justify-center">
-                        <button className="btn text-center border-b-2 border-b-black mb-5 mt-2">Add to Cart</button>
+                        <button onClick={() => handleAddCart(properties)} className="btn text-center border-b-2 border-b-black mb-5 mt-2">Add to Cart</button>
                     </div>
                 </div>
             </div>

@@ -1,19 +1,33 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import auttImg from '../../assets/others/authentication.gif';
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
+import { AuthContext } from '../../Providers/AuthProvider';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Login = () => {
     const [button, setButton] = useState();
+    const { signInUser } = useContext(AuthContext);
+    let navigate = useNavigate();
+    let location = useLocation();
+    let from = location.state?.from?.pathname || "/";
+
     let handleSubmit = e => {
         e.preventDefault();
         const email = e.target.email.value;
         const password = e.target.password.value;
+        signInUser(email, password)
+            .then(() => {
+                toast("Logged in Succesfully!");
+                navigate(from, { replace: true });
+            })
+            .catch(error => toast(error.message))
 
     }
     const captchaRef = useRef();
 
     const handleCaptcha = () => {
         const value = captchaRef.current.value;
-        console.log(value);
         const isValid = validateCaptcha(value);
         setButton(isValid);
     }
@@ -49,6 +63,8 @@ const Login = () => {
                                 </div>
                                 <input type="text" ref={captchaRef} onBlur={handleCaptcha} name="captcha" placeholder="Enter Captcha" className="input input-bordered" required />
                             </div>
+                            <p>New Here? <Link to={'/register'}>Create a new account</Link></p>
+                            <ToastContainer />
                             <div className="form-control mt-6">
                                 {button ? <input type="submit" value="Sign in" className={`btn btn-outline`} /> : <input type="submit" value="Sign in" disabled className={`btn btn-outline`} />
                                 }

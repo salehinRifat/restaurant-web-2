@@ -1,9 +1,54 @@
-
+import { useContext } from "react";
+import { AuthContext } from "../../../Providers/AuthProvider";
+import Swal from "sweetalert2";
+import { useLocation, useNavigate } from "react-router-dom";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useCart from "../../../Hooks/useCart";
 
 const OrderCard = ({ properties }) => {
-    const { image, name, recipe, price } = properties;
+    const { user } = useContext(AuthContext);
+    const { image, name, recipe, price, } = properties;
+    const axiosSecure = useAxiosSecure();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const [, refetch] = useCart();
     const handleAddCart = (item) => {
-        console.log(item);
+        if (user && user.email) {
+            const cartItem = {
+                email: user?.email,
+                itemId: item?._id,
+                name,
+                price,
+                image,
+            }
+            axiosSecure.post('/carts', cartItem)
+                .then(res => {
+                    if (res.data.insertedId) {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Added to cart",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        refetch();
+                    }
+                })
+        } else {
+            Swal.fire({
+                title: "You are not logged in",
+                text: "Do  you want to log in?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Log in"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate('/login', { state: { from: location } });
+                }
+            });
+        }
     }
     return (
         <div>

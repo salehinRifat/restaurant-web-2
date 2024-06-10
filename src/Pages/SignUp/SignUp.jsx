@@ -5,7 +5,9 @@ import { useContext } from 'react';
 import { AuthContext } from '../../Providers/AuthProvider';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useAxiosPublic from '../../Hooks/useAxiosPublic';
 const SignUP = () => {
+    const axiosPublic = useAxiosPublic();
     const {
         register,
         handleSubmit, reset,
@@ -18,9 +20,16 @@ const SignUP = () => {
             .then(result => {
                 upadteUserProfile(data.name, data.photoURL)
                     .then(result => {
-                        reset();
-                        toast("Successfully Signed up!")
-                        navigate('/')
+                        const userInfo = {
+                            name: data.name,
+                            email: data.email
+                        }
+                        axiosPublic.post('/users', userInfo)
+                            .then(result => {
+                                reset();
+                                toast("Successfully Signed up!")
+                                navigate('/')
+                            })
                     })
             })
             .catch(error => toast(error.message))

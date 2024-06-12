@@ -5,6 +5,7 @@ import { AuthContext } from '../../Providers/AuthProvider';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SocialLogin from '../../Components/SocailLogin/SocialLogin';
 const Login = () => {
     const [button, setButton] = useState();
     const { signInUser } = useContext(AuthContext);
@@ -69,6 +70,7 @@ const Login = () => {
                                 {button ? <input type="submit" value="Sign in" className={`btn btn-outline`} /> : <input type="submit" value="Sign in" disabled className={`btn btn-outline`} />
                                 }
                             </div>
+                            <SocialLogin></SocialLogin>
                         </form>
                     </div>
                 </div>

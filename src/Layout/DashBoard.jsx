@@ -7,7 +7,6 @@ import useAdmin from "../Hooks/useAdmin";
 const DashBoard = () => {
 
     const [isAdmin] = useAdmin();
-    console.log(isAdmin);
     return (
         <div className="flex max-w-screen-xl mx-auto min-h-screen">
             <div className="bg-orange-400  p-5">

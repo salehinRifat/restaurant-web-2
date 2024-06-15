@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { FaTrash, FaUser } from "react-icons/fa";
 import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
 import Swal from "sweetalert2";
@@ -7,7 +6,6 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 
 const AllUsers = () => {
-    const axiosPublic = useAxiosPublic();
     const axiosSecure = useAxiosSecure();
     const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],

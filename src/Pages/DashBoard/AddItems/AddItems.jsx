@@ -2,10 +2,13 @@ import { useForm } from "react-hook-form"
 import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
 import { FaUtensils } from "react-icons/fa";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 const AddItems = () => {
     const image_key = import.meta.env.VITE_image_api;
     const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_key}`;
     const axiosPublic = useAxiosPublic();
+    const asioxSecure = useAxiosSecure();
     const {
         register,
         handleSubmit
@@ -22,9 +25,20 @@ const AddItems = () => {
             image: res.data.data.display_url,
             category: data.category,
             recipe: data.recipe,
-            price: data.price
+            price: parseFloat(data.price)
         }
-        console.log(menuItem)
+        console.log(menuItem);
+        asioxSecure.post('/menu', menuItem)
+            .then(res => {
+                if (res.data.insertedId) {
+                    Swal.fire({
+                        title: "Congratulations!",
+                        text: `${data.name} Added Succesfully`,
+                        icon: "success"
+                    });
+                }
+            })
+
     }
     return (
         <div className="">
@@ -40,11 +54,11 @@ const AddItems = () => {
                     <div className="my-3 w-1/2">
                         <span className="label-text block mb-2  font-bold">Category</span>
                         <select className="select select-bordered w-full" {...register("category")} defaultValue="value">
-                            <option >Salad</option>
-                            <option>Drinks</option>
-                            <option>Dessert</option>
-                            <option>Soup</option>
-                            <option>Pizza</option>
+                            <option >salad</option>
+                            <option>drinks</option>
+                            <option>dessert</option>
+                            <option>soup</option>
+                            <option>pizza</option>
                         </select>
                     </div>
 

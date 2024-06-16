@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form"
 import { useContext } from 'react';
 import { AuthContext } from '../../Providers/AuthProvider';
-import { ToastContainer, toast } from 'react-toastify';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useAxiosPublic from '../../Hooks/useAxiosPublic';
 const SignUP = () => {
@@ -27,7 +27,17 @@ const SignUP = () => {
                         axiosPublic.post('/users', userInfo)
                             .then(result => {
                                 reset();
-                                toast("Successfully Signed up!")
+                                toast.success('Signed Up succesfully!', {
+                                    position: "top-right",
+                                    autoClose: 5000,
+                                    hideProgressBar: false,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: true,
+                                    progress: undefined,
+                                    theme: "light",
+                                    transition: Bounce,
+                                });
                                 navigate('/')
                             })
                     })
@@ -56,10 +66,10 @@ const SignUP = () => {
                             </div>
                             <div className="form-control">
                                 <label className="label">
-                                    <span className="label-text">Photo URL</span>
+                                    <span className="label-text">Photo URL - Optional</span>
                                 </label>
-                                <input type="text" name="photoURL" {...register("photoURL", { required: true })} placeholder="photoURL" className="input input-bordered" />
-                                {errors.photoURL && <span className='text-red-600'>Please enter your photoURL</span>}
+                                <input type="text" name="photoURL" {...register("photoURL",)} placeholder="photoURL" className="input input-bordered" />
+                                {/* {errors.photoURL && <span className='text-red-600'>Please enter your photoURL</span>} */}
                             </div>
                             <div className="form-control">
                                 <label className="label">
@@ -78,7 +88,7 @@ const SignUP = () => {
                                 )}
                             </div>
                             <h1>Already Registered? <Link to={'/login'}>Login</Link></h1>
-                            <ToastContainer />
+
                             <div className="form-control mt-6">
                                 <input type="submit" value="Sign Up" className={`btn btn-outline`} />
                             </div>

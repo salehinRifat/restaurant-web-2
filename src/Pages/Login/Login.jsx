@@ -3,7 +3,7 @@ import auttImg from '../../assets/others/authentication.gif';
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../../Providers/AuthProvider';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SocialLogin from '../../Components/SocailLogin/SocialLogin';
 const Login = () => {
@@ -19,7 +19,17 @@ const Login = () => {
         const password = e.target.password.value;
         signInUser(email, password)
             .then(() => {
-                toast("Logged in Succesfully!");
+                toast.success('Succesfully logged in', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
                 navigate(from, { replace: true });
             })
             .catch(error => toast(error.message))
@@ -65,7 +75,7 @@ const Login = () => {
                                 <input type="text" ref={captchaRef} onBlur={handleCaptcha} name="captcha" placeholder="Enter Captcha" className="input input-bordered" required />
                             </div>
                             <p>New Here? <Link to={'/register'}>Create a new account</Link></p>
-                            <ToastContainer />
+
                             <div className="form-control mt-6">
                                 {button ? <input type="submit" value="Sign in" className={`btn btn-outline`} /> : <input type="submit" value="Sign in" disabled className={`btn btn-outline`} />
                                 }
